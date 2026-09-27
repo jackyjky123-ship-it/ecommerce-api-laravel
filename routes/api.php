@@ -18,5 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin Only Routes (ទាមទារ Token + Role Admin)
     Route::middleware('admin')->group(function () {
         Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+        Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+        Route::delete('/products/{id}', [ProductController::class, 'destroy'])-> name('products.destroy');
     });
 });
