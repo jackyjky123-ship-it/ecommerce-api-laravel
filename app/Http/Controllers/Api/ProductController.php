@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     // Public: មើលបញ្ជីទំនិញទាំងអស់ (មានភ្ជាប់ Category និង Variants)
-    public function index():JsonResponse{
-        $product = Product::with(['category', 'variants'])->paginate(10);
+    public function index(Request $request):JsonResponse{
+        $product = Product::with(['category', 'variants'])
+        ->filter($request->only(['search', 'category', 'min_price', 'max_price', 'sort']))
+        ->paginate($request->get('per_page', 10))
+        ->withQueryString(); // បន្ថែម query string ទៅ pagination links
 
         return response()->json($product);
     }
